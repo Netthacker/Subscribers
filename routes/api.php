@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Subscriber;
+use App\Http\Resources\SubscriberResource as SubRes;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/subscriber/{id}', function (string $id) {
+    return new SubRes(Subscriber::findOrFail($id));
+});
+
+Route::get('/subscribers', function () {
+    return SubRes::collection(Subscriber::all());
+});
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
